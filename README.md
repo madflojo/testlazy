@@ -106,8 +106,6 @@ It allows you to take on only the dependencies you need.
 | Package | Description | Go Package Reference |
 |---------|-------------|----------------------|
 | `github.com/madflojo/testlazy/things/testurl` | Pre-built URLs for common use cases | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/things/testurl.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/things/testurl) |
-| `github.com/madflojo/testlazy/fakes/fakectx` | Fake contexts for testing | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/fakes/fakectx.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/fakes/fakectx) |
-| `github.com/madflojo/testlazy/validators/validhttp` | Validators for HTTP responses | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/validators/validhttp.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/validators/validhttp) |
 
 ---
 
