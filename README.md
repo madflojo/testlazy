@@ -1,6 +1,6 @@
 # TestLazy 😴
 
-![TestLazy Logo](./img/testlazy.png)
+![TestLazy Logo](/docs/img/testlazy.png)
 
 **An encyclopedia of test values, fakes, and validators for Go - so you can type less and test more.**
 
