@@ -59,7 +59,7 @@ You can now just do this:
 ```go
 req := &http.Request{
     Method: "GET",
-    URL:    testurl.URLHTTPSExample(),
+    URL:    testurl.URLHTTPS(),
 }
 ```
 
@@ -68,7 +68,7 @@ Or, maybe you want a malformed URL:
 ```go
 req := &http.Request{
     Method: "GET",
-    URL:    testurl.URLMalformed(),
+    URL:    testurl.URLInvalidHost(),
 }
 ```
 

@@ -1,55 +1,56 @@
 package testurl
 
 import (
+	"net/url"
 	"testing"
 )
 
-func TestVars(t *testing.T) {
+const (
+	testExampleHost   = "example.com"
+	testLocalhostHost = "localhost"
+)
+
+// TestPredefinedURLFunctions verifies all predefined URL functions return the expected URL string.
+func TestPredefinedURLFunctions(t *testing.T) {
 	t.Parallel()
-	t.Run("URLHTTP", func(t *testing.T) {
-		u := URLHTTP
-		if u.Scheme != "http" {
-			t.Errorf("Expected scheme 'http', got '%s'", u.Scheme)
-		}
-		if u.Host != "example.com" {
-			t.Errorf("Expected host 'example.com', got '%s'", u.Host)
-		}
-		if u.Path != "/" {
-			t.Errorf("Expected path '/', got '%s'", u.Path)
-		}
-	})
+	tests := []struct {
+		name     string
+		fn       func() *url.URL
+		expected string
+	}{
+		{"URLHTTPBad", URLHTTPBad, "http://bad-url"},
+		{"URLHTTPSBad", URLHTTPSBad, "https://bad-url"},
+		{"URLNoScheme", URLNoScheme, "//" + testExampleHost},
+		{"URLNoHost", URLNoHost, "http:"},
+		{"URLInvalidHost", URLInvalidHost, "http://%E0%A4%A4%E0%A4%A5"},
+		{"URLHTTP", URLHTTP, "http://" + testExampleHost + "/"},
+		{"URLHTTPS", URLHTTPS, "https://" + testExampleHost + "/"},
+		{"URLHTTPWithPort", URLHTTPWithPort, "http://" + testExampleHost + ":8080/"},
+		{"URLHTTPSWithPort", URLHTTPSWithPort, "https://" + testExampleHost + ":8443/"},
+		{"URLHTTPWithQuery", URLHTTPWithQuery, "http://" + testExampleHost + "/?query=1"},
+		{"URLHTTPSWithQuery", URLHTTPSWithQuery, "https://" + testExampleHost + "/?query=1"},
+		{"URLHTTPWithPath", URLHTTPWithPath, "http://" + testExampleHost + "/path/to/resource"},
+		{"URLHTTPSWithPath", URLHTTPSWithPath, "https://" + testExampleHost + "/path/to/resource"},
+		{"URLHTTPWithPathAndQuery", URLHTTPWithPathAndQuery, "http://" + testExampleHost + "/path/to/resource?query=1"},
+		{"URLHTTPSWithPathAndQuery", URLHTTPSWithPathAndQuery, "https://" + testExampleHost + "/path/to/resource?query=1"},
+		{"URLHTTPWithFragment", URLHTTPWithFragment, "http://" + testExampleHost + "/#fragment"},
+		{"URLHTTPSWithFragment", URLHTTPSWithFragment, "https://" + testExampleHost + "/#fragment"},
+		{"URLHTTPLocalhost", URLHTTPLocalhost, "http://" + testLocalhostHost + "/"},
+		{"URLHTTPSLocalhost", URLHTTPSLocalhost, "https://" + testLocalhostHost + "/"},
+		{"URLHTTPLocalhostWithPort", URLHTTPLocalhostWithPort, "http://" + testLocalhostHost + ":8080/"},
+		{"URLHTTPSLocalhostWithPort", URLHTTPSLocalhostWithPort, "https://" + testLocalhostHost + ":8443/"},
+	}
 
-	t.Run("URLHTTPS", func(t *testing.T) {
-		u := URLHTTPS
-		if u.Scheme != "https" {
-			t.Errorf("Expected scheme 'https', got '%s'", u.Scheme)
-		}
-		if u.Host != "example.com" {
-			t.Errorf("Expected host 'example.com', got '%s'", u.Host)
-		}
-		if u.Path != "/" {
-			t.Errorf("Expected path '/', got '%s'", u.Path)
-		}
-	})
-
-	t.Run("URLMalformed", func(t *testing.T) {
-		u := URLMalformed
-		if u.Scheme != "http" {
-			t.Errorf("Expected scheme 'http', got '%s'", u.Scheme)
-		}
-		if u.Host != "%E0%A4%A" {
-			t.Errorf("Expected host '%s', got '%s'", "%E0%A4%A", u.Host)
-		}
-		if u.Path != "" {
-			t.Errorf("Expected path '', got '%s'", u.Path)
-		}
-		if u.RawQuery != "" {
-			t.Errorf("Expected query '', got '%s'", u.RawQuery)
-		}
-		if u.Fragment != "" {
-			t.Errorf("Expected fragment '', got '%s'", u.Fragment)
-		}
-	})
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			u := tc.fn()
+			if u.String() != tc.expected {
+				t.Errorf("Expected %s to be %q, got %q", tc.name, tc.expected, u.String())
+			}
+		})
+	}
 }
 
 type mustParseTestCase struct {
