@@ -1,0 +1,4 @@
+/*
+Package testlazy
+*/
+package testlazy
