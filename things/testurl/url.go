@@ -1,20 +1,24 @@
 /*
-Package testurl provides a set of predefined URL functions for testing HTTP clients and servers.
+Package testurl makes URL generation in Go tests a breeze—no more boilerplate
+url.Parse calls or manual query-string concat. Simply import testurl and pick
+the helper you need to focus on your test logic, not the URL plumbing.
 
-It includes common URL variants for HTTP and HTTPS:
-  - Base URLs (example.com) with and without trailing slash.
-  - URLs with ports, query parameters, paths, and fragments.
-  - Localhost URLs with optional ports.
-  - A malformed URL for testing error handling.
+  github.com/madflojo/testlazy/things/testurl
 
-Example usage:
+What’s inside?
+
+- HTTP vs HTTPS for example.com and localhost.
+- Ports, paths, queries, and fragments.
+- Intentionally broken URLs for negative testing.
+
+Example usage
 
 	req := &http.Request{
 	    Method: "GET",
 	    URL:    testurl.URLHTTPS(),
 	}
 
-Use the documented functions directly in your tests.
+Your tests deserve clarity and speed—let testurl handle the URL creation work.
 */
 package testurl
 
@@ -24,8 +28,8 @@ import (
 )
 
 const (
-	exampleHost   = "example.com"
-	localhostHost = "localhost"
+	ExampleHost   = "example.com"
+	LocalhostHost = "localhost"
 )
 
 // URLHTTPBad returns a *url.URL for "http://bad-url" which is technically valid but "should" not resolve correctly.
@@ -40,7 +44,7 @@ func URLHTTPSBad() *url.URL {
 
 // URLNoScheme returns a *url.URL for "example.com" (no scheme).
 func URLNoScheme() *url.URL {
-	return MalformedURL("", exampleHost)
+	return MalformedURL("", ExampleHost)
 }
 
 // URLNoHost returns a *url.URL for "http://".
@@ -55,82 +59,82 @@ func URLInvalidHost() *url.URL {
 
 // URLHTTP returns a *url.URL for "http://example.com/".
 func URLHTTP() *url.URL {
-	return MustParse("http://" + exampleHost + "/")
+	return MustParse("http://" + ExampleHost + "/")
 }
 
 // URLHTTPS returns a *url.URL for "https://example.com/".
 func URLHTTPS() *url.URL {
-	return MustParse("https://" + exampleHost + "/")
+	return MustParse("https://" + ExampleHost + "/")
 }
 
 // URLHTTPWithPort returns a *url.URL for "http://example.com:8080/".
 func URLHTTPWithPort() *url.URL {
-	return MustParse("http://" + exampleHost + ":8080/")
+	return MustParse("http://" + ExampleHost + ":8080/")
 }
 
 // URLHTTPSWithPort returns a *url.URL for "https://example.com:8443/".
 func URLHTTPSWithPort() *url.URL {
-	return MustParse("https://" + exampleHost + ":8443/")
+	return MustParse("https://" + ExampleHost + ":8443/")
 }
 
 // URLHTTPWithQuery returns a *url.URL for "http://example.com/?query=1".
 func URLHTTPWithQuery() *url.URL {
-	return MustParse("http://" + exampleHost + "/?query=1")
+	return MustParse("http://" + ExampleHost + "/?query=1")
 }
 
 // URLHTTPSWithQuery returns a *url.URL for "https://example.com/?query=1".
 func URLHTTPSWithQuery() *url.URL {
-	return MustParse("https://" + exampleHost + "/?query=1")
+	return MustParse("https://" + ExampleHost + "/?query=1")
 }
 
 // URLHTTPWithPath returns a *url.URL for "http://example.com/path/to/resource".
 func URLHTTPWithPath() *url.URL {
-	return MustParse("http://" + exampleHost + "/path/to/resource")
+	return MustParse("http://" + ExampleHost + "/path/to/resource")
 }
 
 // URLHTTPSWithPath returns a *url.URL for "https://example.com/path/to/resource".
 func URLHTTPSWithPath() *url.URL {
-	return MustParse("https://" + exampleHost + "/path/to/resource")
+	return MustParse("https://" + ExampleHost + "/path/to/resource")
 }
 
 // URLHTTPWithPathAndQuery returns a *url.URL for "http://example.com/path/to/resource?query=1".
 func URLHTTPWithPathAndQuery() *url.URL {
-	return MustParse("http://" + exampleHost + "/path/to/resource?query=1")
+	return MustParse("http://" + ExampleHost + "/path/to/resource?query=1")
 }
 
 // URLHTTPSWithPathAndQuery returns a *url.URL for "https://example.com/path/to/resource?query=1".
 func URLHTTPSWithPathAndQuery() *url.URL {
-	return MustParse("https://" + exampleHost + "/path/to/resource?query=1")
+	return MustParse("https://" + ExampleHost + "/path/to/resource?query=1")
 }
 
 // URLHTTPWithFragment returns a *url.URL for "http://example.com/#fragment".
 func URLHTTPWithFragment() *url.URL {
-	return MustParse("http://" + exampleHost + "/#fragment")
+	return MustParse("http://" + ExampleHost + "/#fragment")
 }
 
 // URLHTTPSWithFragment returns a *url.URL for "https://example.com/#fragment".
 func URLHTTPSWithFragment() *url.URL {
-	return MustParse("https://" + exampleHost + "/#fragment")
+	return MustParse("https://" + ExampleHost + "/#fragment")
 }
 
 // URLHTTPLocalhost returns a *url.URL for "http://localhost/".
 func URLHTTPLocalhost() *url.URL {
-	return MustParse("http://" + localhostHost + "/")
+	return MustParse("http://" + LocalhostHost + "/")
 }
 
 // URLHTTPSLocalhost returns a *url.URL for "https://localhost/".
 func URLHTTPSLocalhost() *url.URL {
-	return MustParse("https://" + localhostHost + "/")
+	return MustParse("https://" + LocalhostHost + "/")
 }
 
 // URLHTTPLocalhostWithPort returns a *url.URL for "http://localhost:8080/".
 func URLHTTPLocalhostWithPort() *url.URL {
-	return MustParse("http://" + localhostHost + ":8080/")
+	return MustParse("http://" + LocalhostHost + ":8080/")
 }
 
 // URLHTTPSLocalhostWithPort returns a *url.URL for "https://localhost:8443/".
 func URLHTTPSLocalhostWithPort() *url.URL {
-	return MustParse("https://" + localhostHost + ":8443/")
+	return MustParse("https://" + LocalhostHost + ":8443/")
 }
 
 // MustParse is a helper function that parses a URL string and panics if it fails.

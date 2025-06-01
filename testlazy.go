@@ -1,18 +1,22 @@
 /*
-Package testlazy provides an encyclopedia of test values, fakes, and validators for Go.
+Package testlazy is your test helper sidekick—an ever-growing collection of
+canonical values, handy fakes, and smart validators so you can write tests
+faster and with less boilerplate.
 
-It helps reduce boilerplate in your tests by offering predefined test values and helpers.
+Why waste precious brainpower on repetitive setup when testlazy has your back?
+Pick only the packages you need and focus on your test logic, not the plumbing.
 
-Current components include:
-  - things/testurl: Predefined URLs for common use cases.
-  - fakes/fakectx: Fake contexts for testing cancellation and timeouts.
-  - validators/validhttp: Validators for HTTP status codes and responses.
+Current modules:
+  - things/testurl: Pre-built URL helpers for every HTTP scenario.
+  - fakes/fakectx: Easy-to-use cancelled or timed-out contexts. (coming soon)
+  - validators: Common checkers for HTTP status codes, headers, and more. (coming soon)
 
-Quick Start:
+Quick Start
 
 URLs without the boilerplate (things/testurl):
 
-	// Instead of parsing URLs manually:
+Instead of manual parsing...
+
 	url, err := url.Parse("https://example.com")
 	if err != nil {
 	    t.Fatalf("failed to parse URL: %v", err)
@@ -22,12 +26,15 @@ URLs without the boilerplate (things/testurl):
 	    URL:    url,
 	}
 
-	// Use testlazy to get predefined URLs:
+...just grab a ready-made URL:
+
 	req = &http.Request{
 	    Method: "GET",
 	    URL:    testurl.URLHTTPS(),
 	}
-	// Or a malformed URL for error handling:
+
+And for a malformed URL to test error handling:
+
 	req = &http.Request{
 	    Method: "GET",
 	    URL:    testurl.URLInvalidHost(),
@@ -35,12 +42,23 @@ URLs without the boilerplate (things/testurl):
 
 Contexts without the hassle (fakes/fakectx):
 
-	// Simulate a canceled context without boilerplate:
+Instead of manually cancelling contexts...
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	err := doSomething(ctx)
+	if err == nil {
+	    t.Fatal("expected error for canceled context, got nil")
+	}
+
+...use a one-liner fake:
+
 	err := doSomething(fakectx.Cancelled())
 	if err == nil {
 	    t.Fatal("expected error for canceled context, got nil")
 	}
 
-For more details and usage examples, see the individual packages under this module.
+For more details and examples, see the docs in each package.
 */
 package testlazy
