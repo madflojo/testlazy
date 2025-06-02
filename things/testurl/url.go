@@ -3,13 +3,7 @@ Package testurl makes URL generation in Go tests a breeze—no more boilerplate
 url.Parse calls or manual query-string concat. Simply import testurl and pick
 the helper you need to focus on your test logic, not the URL plumbing.
 
-  github.com/madflojo/testlazy/things/testurl
-
-What’s inside?
-
-- HTTP vs HTTPS for example.com and localhost.
-- Ports, paths, queries, and fragments.
-- Intentionally broken URLs for negative testing.
+	github.com/madflojo/testlazy/things/testurl
 
 Example usage
 
@@ -30,6 +24,8 @@ import (
 const (
 	ExampleHost   = "example.com"
 	LocalhostHost = "localhost"
+	HTTPPort      = "8080"
+	HTTPSPort     = "8443"
 )
 
 // URLHTTPBad returns a *url.URL for "http://bad-url" which is technically valid but "should" not resolve correctly.
@@ -69,12 +65,12 @@ func URLHTTPS() *url.URL {
 
 // URLHTTPWithPort returns a *url.URL for "http://example.com:8080/".
 func URLHTTPWithPort() *url.URL {
-	return MustParse("http://" + ExampleHost + ":8080/")
+	return MustParse("http://" + ExampleHost + ":" + HTTPPort + "/")
 }
 
 // URLHTTPSWithPort returns a *url.URL for "https://example.com:8443/".
 func URLHTTPSWithPort() *url.URL {
-	return MustParse("https://" + ExampleHost + ":8443/")
+	return MustParse("https://" + ExampleHost + ":" + HTTPSPort + "/")
 }
 
 // URLHTTPWithQuery returns a *url.URL for "http://example.com/?query=1".
@@ -129,12 +125,12 @@ func URLHTTPSLocalhost() *url.URL {
 
 // URLHTTPLocalhostWithPort returns a *url.URL for "http://localhost:8080/".
 func URLHTTPLocalhostWithPort() *url.URL {
-	return MustParse("http://" + LocalhostHost + ":8080/")
+	return MustParse("http://" + LocalhostHost + ":" + HTTPPort + "/")
 }
 
 // URLHTTPSLocalhostWithPort returns a *url.URL for "https://localhost:8443/".
 func URLHTTPSLocalhostWithPort() *url.URL {
-	return MustParse("https://" + LocalhostHost + ":8443/")
+	return MustParse("https://" + LocalhostHost + ":" + HTTPSPort + "/")
 }
 
 // MustParse is a helper function that parses a URL string and panics if it fails.
