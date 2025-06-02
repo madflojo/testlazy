@@ -40,7 +40,9 @@ jobs:
         working-directory: ${{ matrix.module }}
         run: make tests
       - name: Upload coverage to Codecov
-        working-directory: ${{ matrix.module }}
         uses: codecov/codecov-action@v5
         with:
+          files: ${{ matrix.module }}/coverage.out
+          flags: unittests
+          name: ${{ matrix.module }}
           token: ${{ secrets.CODECOV_TOKEN }}
