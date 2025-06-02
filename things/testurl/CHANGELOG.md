@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/madflojo/testlazy/compare/things/testurl/v1.0.0...things/testurl/v1.1.0) (2025-06-02)
+
+
+### Features
+
+* **testurl:** streamline port handling in URL functions 🌐 ([#4](https://github.com/madflojo/testlazy/issues/4)) ([732e07e](https://github.com/madflojo/testlazy/commit/732e07e1b146efd09334c2ac6c4e6d7ebb92a7bc))
+
 ## 1.0.0 (2025-06-01)
 
 
