@@ -1,6 +1,6 @@
 {
-  ".": "0.2.0",
+  ".": "0.3.0",
   "modulea": "0.1.0",
   "moduleb": "0.1.0",
-  "things/testurl": "1.0.0"
+  "things/testurl": "1.1.0"
 }
