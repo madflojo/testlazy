@@ -31,14 +31,30 @@ func TestPredefinedURLFunctions(t *testing.T) {
 		{"URLHTTPSWithQuery", URLHTTPSWithQuery, "https://" + testExampleHost + "/?query=1"},
 		{"URLHTTPWithPath", URLHTTPWithPath, "http://" + testExampleHost + "/path/to/resource"},
 		{"URLHTTPSWithPath", URLHTTPSWithPath, "https://" + testExampleHost + "/path/to/resource"},
-		{"URLHTTPWithPathAndQuery", URLHTTPWithPathAndQuery, "http://" + testExampleHost + "/path/to/resource?query=1"},
-		{"URLHTTPSWithPathAndQuery", URLHTTPSWithPathAndQuery, "https://" + testExampleHost + "/path/to/resource?query=1"},
+		{
+			"URLHTTPWithPathAndQuery",
+			URLHTTPWithPathAndQuery,
+			"http://" + testExampleHost + "/path/to/resource?query=1",
+		},
+		{
+			"URLHTTPSWithPathAndQuery",
+			URLHTTPSWithPathAndQuery,
+			"https://" + testExampleHost + "/path/to/resource?query=1",
+		},
 		{"URLHTTPWithFragment", URLHTTPWithFragment, "http://" + testExampleHost + "/#fragment"},
 		{"URLHTTPSWithFragment", URLHTTPSWithFragment, "https://" + testExampleHost + "/#fragment"},
 		{"URLHTTPLocalhost", URLHTTPLocalhost, "http://" + testLocalhostHost + "/"},
 		{"URLHTTPSLocalhost", URLHTTPSLocalhost, "https://" + testLocalhostHost + "/"},
-		{"URLHTTPLocalhostWithPort", URLHTTPLocalhostWithPort, "http://" + testLocalhostHost + ":8080/"},
-		{"URLHTTPSLocalhostWithPort", URLHTTPSLocalhostWithPort, "https://" + testLocalhostHost + ":8443/"},
+		{
+			"URLHTTPLocalhostWithPort",
+			URLHTTPLocalhostWithPort,
+			"http://" + testLocalhostHost + ":8080/",
+		},
+		{
+			"URLHTTPSLocalhostWithPort",
+			URLHTTPSLocalhostWithPort,
+			"https://" + testLocalhostHost + ":8443/",
+		},
 	}
 
 	for _, tc := range tests {
