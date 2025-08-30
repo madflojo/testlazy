@@ -2,7 +2,7 @@
 
 ![TestLazy Logo](/docs/img/testlazy.png)
 
-**An encyclopedia of test values, fakes, and validators for Go - so you can type less and test more.**
+**An encyclopedia of test values, fakes, helpers, and validators for Go - so you can type less and test more.**
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/madflojo/testlazy)
 [![codecov](https://codecov.io/gh/madflojo/testlazy/branch/main/graph/badge.svg?token=0TTTEWHLVN)](https://codecov.io/gh/madflojo/testlazy)
