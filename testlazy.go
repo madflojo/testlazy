@@ -11,7 +11,7 @@ Current modules:
   - fakes/fakectx: Easy-to-use cancelled or timed-out contexts. (coming soon)
   - validators: Common checkers for HTTP status codes, headers, and more. (coming soon)
 
-Quick Start
+# Quick Start
 
 URLs without the boilerplate (things/testurl):
 

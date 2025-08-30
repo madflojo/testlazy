@@ -72,27 +72,25 @@ req := &http.Request{
 }
 ```
 
-### Contexts without the hassle | `github.com/madflojo/testlazy/fakes/fakectx`
+### Counters for async tests | `github.com/madflojo/testlazy/helpers/counter`
 
-Instead of this:
-
-```go
-// Create a context that is already canceled
-ctx, cancel := context.WithCancel(context.Background())
-cancel() // Cancel the context immediately
-
-err := doSomething(ctx)
-if err == nil {
-    t.Fatal("Expected error for canceled context, got nil")
-}
-```
-
-You can now just do this:
+Coordinating background goroutines without brittle sleeps? Use a tiny, thread-safe counter that can signal when a condition is met.
 
 ```go
-err := doSomething(fakectx.Cancelled())
-if err == nil {
-    t.Fatal("Expected error for canceled context, got nil")
+// Create a counter.
+c := counter.New()
+
+// Kick off work in the background.
+go func() {
+    for i := 0; i < 5; i++ {
+        c.Increment()
+        time.Sleep(5 * time.Millisecond)
+    }
+}()
+
+// Wait until value >= 5 or time out.
+if err := <-c.WaitAbove(5, time.Second); err != nil {
+    t.Fatalf("timed out waiting for counter: %v", err)
 }
 ```
 
@@ -106,6 +104,7 @@ It allows you to take on only the dependencies you need.
 | Package | Description | Go Package Reference |
 |---------|-------------|----------------------|
 | `github.com/madflojo/testlazy/things/testurl` | Pre-built URLs for common use cases | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/things/testurl.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/things/testurl) |
+| `github.com/madflojo/testlazy/helpers/counter` | Test-focused, thread-safe counter | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/helpers/counter.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/helpers/counter) |
 
 ---
 
