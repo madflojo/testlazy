@@ -2,6 +2,7 @@ package fakectx
 
 import (
 	"context"
+	"errors"
 	"testing"
 	"time"
 )
@@ -17,7 +18,7 @@ func TestCancelled(t *testing.T) {
 	t.Run("ErrIsCanceled", func(t *testing.T) {
 		t.Parallel()
 
-		if err := ctx.Err(); err != context.Canceled {
+		if err := ctx.Err(); !errors.Is(err, context.Canceled) {
 			t.Fatalf("expected context.Canceled, got %v", err)
 		}
 	})
@@ -45,7 +46,7 @@ func TestDeadlineExceeded(t *testing.T) {
 	t.Run("ErrIsDeadlineExceeded", func(t *testing.T) {
 		t.Parallel()
 
-		if err := ctx.Err(); err != context.DeadlineExceeded {
+		if err := ctx.Err(); !errors.Is(err, context.DeadlineExceeded) {
 			t.Fatalf("expected context.DeadlineExceeded, got %v", err)
 		}
 	})
@@ -86,7 +87,7 @@ func TestTimedOut(t *testing.T) {
 	t.Run("ErrIsDeadlineExceeded", func(t *testing.T) {
 		t.Parallel()
 
-		if err := ctx.Err(); err != context.DeadlineExceeded {
+		if err := ctx.Err(); !errors.Is(err, context.DeadlineExceeded) {
 			t.Fatalf("expected context.DeadlineExceeded, got %v", err)
 		}
 	})
@@ -153,7 +154,7 @@ func TestTimesOutAfter(t *testing.T) {
 			t.Fatal("context did not time out")
 		}
 
-		if err := ctx.Err(); err != context.DeadlineExceeded {
+		if err := ctx.Err(); !errors.Is(err, context.DeadlineExceeded) {
 			t.Fatalf("expected context.DeadlineExceeded, got %v", err)
 		}
 	})
