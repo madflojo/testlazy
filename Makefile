@@ -2,7 +2,7 @@
 
 all: build tests lint
 
-COMPONENTS = things/testurl helpers/counter
+COMPONENTS = things/testurl helpers/counter fakes/fakectx
 
 # Run tests for all modules
 tests:
