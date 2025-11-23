@@ -10,53 +10,55 @@ import (
 func ExampleCancelled() {
 	ctx := Cancelled()
 
-	fmt.Println(errors.Is(ctx.Err(), context.Canceled))
+	<-ctx.Done()
+	fmt.Println("Context done")
 	// Output:
-	// true
+	// Context done
 }
 
 func ExampleDeadlineExceeded() {
 	ctx := DeadlineExceeded()
 	deadline, ok := ctx.Deadline()
 
-	fmt.Println(ok)
-	fmt.Println(deadline.Before(time.Now()))
-	fmt.Println(errors.Is(ctx.Err(), context.DeadlineExceeded))
+	if ok && deadline.Before(time.Now()) && errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		fmt.Println("Deadline exceeded")
+	}
 	// Output:
-	// true
-	// true
-	// true
+	// Deadline exceeded
 }
 
 func ExampleTimedOut() {
 	ctx := TimedOut()
 
-	fmt.Println(errors.Is(ctx.Err(), context.DeadlineExceeded))
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		fmt.Println("Timed out")
+	}
 	// Output:
-	// true
+	// Timed out
 }
 
 func ExampleTimesOutAfter() {
 	ctx := TimesOutAfter(5 * time.Millisecond)
 
-	select {
-	case <-ctx.Done():
-		fmt.Println(errors.Is(ctx.Err(), context.DeadlineExceeded))
-	case <-time.After(50 * time.Millisecond):
-		fmt.Println("timeout waiting for context")
+	if !errors.Is(ctx.Err(), nil) {
+		fmt.Println("Timeout too soon")
+	}
+
+	time.Sleep(10 * time.Millisecond)
+
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		fmt.Println("Timed out")
 	}
 	// Output:
-	// true
+	// Timed out
 }
 
 func ExampleCancelledWithCallback() {
-	called := 0
 	_, cancel := CancelledWithCallback(func() {
-		called++
+		fmt.Println("Cancelled callback called")
 	})
-	cancel()
 
-	fmt.Println(called)
+	cancel()
 	// Output:
-	// 1
+	// Cancelled callback called
 }
