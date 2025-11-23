@@ -14,8 +14,8 @@ import (
 )
 
 // Cancelled returns a context that has already been canceled. The returned
-// context should report context.Canceled from Err and have a Done channel that
-// is already closed.
+// context reports context.Canceled, closes Done immediately, and carries no
+// deadline or values—perfect for forcing cancel-only branches.
 func Cancelled() context.Context {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
@@ -23,16 +23,16 @@ func Cancelled() context.Context {
 }
 
 // DeadlineExceeded returns a context that has already exceeded its deadline.
-// Callers can inspect the returned Deadline to verify it is in the past.
+// The Deadline reported by the context is always in the past and Err returns
+// context.DeadlineExceeded immediately.
 func DeadlineExceeded() context.Context {
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(-time.Minute))
 	cancel()
 	return ctx
 }
 
-// TimedOut returns a context that has already hit its timeout deadline. The
-// context behaves like the result of context.WithTimeout where the timer has
-// already elapsed.
+// TimedOut returns a context that has already hit its timeout deadline. It is
+// equivalent to a context.WithTimeout call whose timer has fired.
 func TimedOut() context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), 0)
 	defer cancel()
@@ -40,8 +40,8 @@ func TimedOut() context.Context {
 }
 
 // TimesOutAfter returns a context that will cancel itself after the provided
-// duration. Tests can use this to trigger timeout paths without wiring up a
-// real timer manually.
+// duration. The Deadline is set in the future so callers can assert how much
+// time remains before it expires.
 func TimesOutAfter(timeout time.Duration) context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	go func() {
