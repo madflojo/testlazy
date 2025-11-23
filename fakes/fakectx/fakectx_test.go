@@ -3,6 +3,7 @@ package fakectx
 import (
 	"context"
 	"errors"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -176,5 +177,83 @@ func TestTimesOutAfter(t *testing.T) {
 }
 
 func TestCancelledWithCallback(t *testing.T) {
-	t.Skip("CancelledWithCallback helper not implemented yet")
+	t.Parallel()
+
+	t.Run("CallbackInvoked", func(t *testing.T) {
+		t.Parallel()
+
+		var called atomic.Int32
+		ctx, cancel := CancelledWithCallback(func() {
+			called.Add(1)
+		})
+		if ctx == nil || cancel == nil {
+			t.Fatal("CancelledWithCallback returned nil values")
+		}
+
+		cancel()
+		if called.Load() != 1 {
+			t.Fatalf("expected callback called once, got %d", called.Load())
+		}
+	})
+
+	t.Run("ContextCanceledAfterCancel", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := CancelledWithCallback(func() {})
+		if ctx == nil || cancel == nil {
+			t.Fatal("CancelledWithCallback returned nil values")
+		}
+
+		if err := ctx.Err(); err != nil {
+			t.Fatalf("expected nil error before cancel, got %v", err)
+		}
+
+		cancel()
+		select {
+		case <-ctx.Done():
+		case <-time.After(5 * time.Millisecond):
+			t.Fatal("context did not cancel")
+		}
+
+		t.Run("ErrIsCanceledAfterCancel", func(t *testing.T) {
+			if err := ctx.Err(); !errors.Is(err, context.Canceled) {
+				t.Fatalf("expected context.Canceled after cancel, got %v", err)
+			}
+		})
+	})
+
+	t.Run("CallbackOnlyOnce", func(t *testing.T) {
+		t.Parallel()
+
+		var called atomic.Int32
+		ctx, cancel := CancelledWithCallback(func() {
+			called.Add(1)
+		})
+		if ctx == nil || cancel == nil {
+			t.Fatal("CancelledWithCallback returned nil values")
+		}
+
+		cancel()
+		cancel()
+		if called.Load() != 1 {
+			t.Fatalf(
+				"expected callback called once even with multiple cancels, got %d",
+				called.Load(),
+			)
+		}
+	})
+
+	t.Run("WorksAsStandardCancelFunc", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := CancelledWithCallback(func() {})
+		if ctx == nil || cancel == nil {
+			t.Fatal("CancelledWithCallback returned nil values")
+		}
+		f := func(c context.CancelFunc) {
+			c()
+		}
+
+		f(cancel)
+	})
 }

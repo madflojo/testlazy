@@ -8,7 +8,7 @@ import (
 )
 
 func ExampleCancelled() {
-	ctx := fakectx.Cancelled()
+	ctx := Cancelled()
 
 	fmt.Println(errors.Is(ctx.Err(), context.Canceled))
 	// Output:
@@ -47,4 +47,16 @@ func ExampleTimesOutAfter() {
 	}
 	// Output:
 	// true
+}
+
+func ExampleCancelledWithCallback() {
+	called := 0
+	_, cancel := CancelledWithCallback(func() {
+		called++
+	})
+	cancel()
+
+	fmt.Println(called)
+	// Output:
+	// 1
 }

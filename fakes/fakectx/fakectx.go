@@ -10,6 +10,7 @@ package fakectx
 
 import (
 	"context"
+	"sync"
 	"time"
 )
 
@@ -19,6 +20,7 @@ import (
 func Cancelled() context.Context {
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
+
 	return ctx
 }
 
@@ -28,6 +30,7 @@ func Cancelled() context.Context {
 func DeadlineExceeded() context.Context {
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(-time.Minute))
 	cancel()
+
 	return ctx
 }
 
@@ -36,6 +39,7 @@ func DeadlineExceeded() context.Context {
 func TimedOut() context.Context {
 	ctx, cancel := context.WithTimeout(context.Background(), 0)
 	defer cancel()
+
 	return ctx
 }
 
@@ -48,6 +52,7 @@ func TimesOutAfter(timeout time.Duration) context.Context {
 		<-ctx.Done()
 		cancel()
 	}()
+
 	return ctx
 }
 
@@ -55,5 +60,17 @@ func TimesOutAfter(timeout time.Duration) context.Context {
 // that executes the provided callback when invoked. This allows tests to ensure
 // downstream code triggers cancellation.
 func CancelledWithCallback(cb func()) (context.Context, context.CancelFunc) {
-	return nil, nil
+	ctx, cancel := context.WithCancel(context.Background())
+
+	var once sync.Once
+	wrapped := func() {
+		once.Do(func() {
+			cancel()
+			if cb != nil {
+				cb()
+			}
+		})
+	}
+
+	return ctx, wrapped
 }
