@@ -2,7 +2,9 @@
 Package fakectx provides curated context.Context helpers for tests that need
 specific cancellation or deadline behavior without the boilerplate. The package
 focuses on one-liner constructors so test authors can express failure scenarios
-clearly and consistently.
+clearly and consistently. Start with Cancelled for immediate
+context.Canceled states and layer in additional helpers as your tests grow more
+complex.
 */
 package fakectx
 

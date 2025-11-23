@@ -8,7 +8,7 @@ Pick only the packages you need and focus on your test logic, not the plumbing.
 
 Current modules:
   - things/testurl: Pre-built URL helpers for every HTTP scenario.
-  - fakes/fakectx: Easy-to-use cancelled or timed-out contexts. (coming soon)
+  - fakes/fakectx: Easy-to-use cancelled or timed-out contexts.
   - validators: Common checkers for HTTP status codes, headers, and more. (coming soon)
 
 # Quick Start
