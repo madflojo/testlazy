@@ -47,7 +47,15 @@ func TimedOut() context.Context {
 // duration. The Deadline is set in the future so callers can assert how much
 // time remains before it expires.
 func TimesOutAfter(timeout time.Duration) context.Context {
-	ctx, _ := context.WithTimeout(context.Background(), timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+
+	// Ensure the cancel function is called when the context is done to avoid
+	// potential resource leaks. Even though the context will cancel itself after the
+	// timeout, it's a good practice to call cancel to clean up resources.
+	go func() {
+		<-ctx.Done()
+		cancel()
+	}()
 
 	return ctx
 }
