@@ -47,11 +47,7 @@ func TimedOut() context.Context {
 // duration. The Deadline is set in the future so callers can assert how much
 // time remains before it expires.
 func TimesOutAfter(timeout time.Duration) context.Context {
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	go func() {
-		<-ctx.Done()
-		cancel()
-	}()
+	ctx, _ := context.WithTimeout(context.Background(), timeout)
 
 	return ctx
 }
