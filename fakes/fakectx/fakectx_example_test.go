@@ -40,7 +40,7 @@ func ExampleTimedOut() {
 func ExampleTimesOutAfter() {
 	ctx := TimesOutAfter(5 * time.Millisecond)
 
-	if !errors.Is(ctx.Err(), nil) {
+	if ctx.Err() != nil {
 		fmt.Println("Timeout too soon")
 	}
 
