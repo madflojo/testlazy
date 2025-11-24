@@ -29,6 +29,15 @@
       "include-v-in-tag": true,
       "extra-files": ["helpers/counter/go.mod"],
       "changelog-path": "CHANGELOG.md"
+    },
+    "fakes/fakectx": {
+      "release-type": "go",
+      "package-name": "fakes/fakectx",
+      "bump-minor-pre-major": true,
+      "include-component-in-tag": true,
+      "include-v-in-tag": true,
+      "extra-files": ["fakes/fakectx/go.mod", "fakes/fakectx/fakectx.go"],
+      "changelog-path": "CHANGELOG.md"
     }
   },
   "changelog-types": [
