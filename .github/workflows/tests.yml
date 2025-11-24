@@ -1,4 +1,6 @@
 name: Test
+permissions:
+  contents: read
 
 on:
   push:
@@ -33,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: '1.24'
       - name: Test module
