@@ -2,7 +2,7 @@
 
 ![TestLazy Logo](/docs/img/testlazy.png)
 
-**An encyclopedia of test values, fakes, and validators for Go - so you can type less and test more.**
+**An encyclopedia of test values, fakes, helpers, and validators for Go - so you can type less and test more.**
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/madflojo/testlazy)
 [![codecov](https://codecov.io/gh/madflojo/testlazy/branch/main/graph/badge.svg?token=0TTTEWHLVN)](https://codecov.io/gh/madflojo/testlazy)
@@ -94,6 +94,20 @@ if err := <-c.WaitAbove(5, time.Second); err != nil {
 }
 ```
 
+### Contexts without manual cancellation | `github.com/madflojo/testlazy/fakes/fakectx`
+
+Force cancel-aware code paths without wiring up `context.WithCancel` every time.
+
+```go
+ctx := fakectx.Cancelled()
+
+if err := doSomething(ctx); err == nil {
+    t.Fatalf("expected failure for canceled context")
+}
+
+<-ctx.Done() // already closed
+```
+
 ---
 
 ## 🧱 Structure
@@ -105,6 +119,7 @@ It allows you to take on only the dependencies you need.
 |---------|-------------|----------------------|
 | `github.com/madflojo/testlazy/things/testurl` | Pre-built URLs for common use cases | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/things/testurl.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/things/testurl) |
 | `github.com/madflojo/testlazy/helpers/counter` | Test-focused, thread-safe counter | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/helpers/counter.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/helpers/counter) |
+| `github.com/madflojo/testlazy/fakes/fakectx` | Ready-made contexts for cancellation/deadline tests | [![Go Reference](https://pkg.go.dev/badge/github.com/madflojo/testlazy/fakes/fakectx.svg)](https://pkg.go.dev/github.com/madflojo/testlazy/fakes/fakectx) |
 
 ---
 
