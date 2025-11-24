@@ -1,5 +1,6 @@
 {
   ".": "0.4.0",
   "things/testurl": "1.2.0",
-  "helpers/counter": "0.2.0"
+  "helpers/counter": "0.2.0",
+  "fakes/fakectx": "0.0.0"
 }
