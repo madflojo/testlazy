@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0](https://github.com/madflojo/testlazy/compare/v0.4.0...v0.5.0) (2025-11-24)
+
+
+### Features
+
+* **fakes/fakectx:** introduce fakectx package for testing contexts 🧪 ([#12](https://github.com/madflojo/testlazy/issues/12)) ([5510b54](https://github.com/madflojo/testlazy/commit/5510b54d500390368b6c94846807d547693979dd))
+
 ## [0.4.0](https://github.com/madflojo/testlazy/compare/v0.3.0...v0.4.0) (2025-08-30)
 
 
