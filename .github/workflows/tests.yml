@@ -43,7 +43,7 @@ jobs:
         run: make tests
       - name: Upload coverage to Codecov
         if: ${{ hashFiles(format('{0}/coverage.out', matrix.module)) != '' }}
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           files: ${{ matrix.module }}/coverage.out
           flags: ${{ matrix.module }}-unittests
