@@ -32,3 +32,14 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+  - package-ecosystem: npm
+    directory: /.github/commitlint
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      commitlint:
+        patterns:
+          - '*'
