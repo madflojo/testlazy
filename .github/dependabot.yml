@@ -1,29 +1,45 @@
 version: 2
 updates:
-  - package-ecosystem: "gomod"
-    directory: "/"
+  - package-ecosystem: gomod
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
     commit-message:
-      prefix: "chore"
-
-  - package-ecosystem: "gomod"
-    directory: "/things/testurl"
+      prefix: chore
+  - package-ecosystem: gomod
+    directory: /things/testurl
     schedule:
-      interval: "weekly"
+      interval: weekly
     commit-message:
-      prefix: "chore(things/testurl)"
-  - package-ecosystem: "gomod"
-    directory: "/helpers/counter"
+      prefix: chore(things/testurl)
+  - package-ecosystem: gomod
+    directory: /helpers/counter
     schedule:
-      interval: "weekly"
+      interval: weekly
     commit-message:
-      prefix: "chore(helpers/counter)"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      prefix: chore(helpers/counter)
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: ci
+      include: scope
+  - package-ecosystem: gomod
+    directory: /fakes/fakectx
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+  - package-ecosystem: npm
+    directory: /.github/commitlint
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      commitlint:
+        patterns:
+          - '*'
